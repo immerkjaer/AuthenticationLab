@@ -14,9 +14,9 @@ public class passwordManager {
 
     public static void main(String[] args){
         try{
-            addPassword("Tommy", "TheseTwoPasswordsAreNotTheSame");
-            addPassword("Not_Tommy", "TheseTwoRasswordsAreNotTheSame");
-            System.out.println(authorizeUser("Tommy2", "TheseTwoRasswordsAreNotTheSame"));
+            addPassword("Tommy", "Password");
+            System.out.println(authorizeUser("Tommy", "Password"));
+            System.out.println(authorizeUser("not_Tommy", "notPassword"));
         }catch (Exception e){
             e.printStackTrace();
         }
