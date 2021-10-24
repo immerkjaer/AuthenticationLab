@@ -9,18 +9,71 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.ArrayList;
+import java.sql.Timestamp;
 
 public class passwordManager {
+
+    private static class AuthorizedUser{
+        public AuthorizedUser(String userId, Timestamp authTime){
+            this.userId = userId;
+            this.authTime = authTime;
+        }
+
+        public String userId;
+        public Timestamp authTime; 
+    }
+    static ArrayList<AuthorizedUser> authorizedUsers = new ArrayList<AuthorizedUser>();
+    private static int AUTH_TIMEOUT = 5000; // Milliseconds
+    private static int UPDATE_INTERVAL = 1000; // Milliseconds
+
 
     public static void main(String[] args){
         try{
             addPassword("Tommy", "Password");
-            System.out.println(authorizeUser("Tommy", "Password"));
-            System.out.println(authorizeUser("not_Tommy", "notPassword"));
+
+            // Eternal main loop; 1s update interval
+            // This could run on a separate thread if needed
+            while(true){
+                // Simple infinite timeout test demonstrating timeout.
+                // Boolean output ignored here; would be used in real scenario
+                authorizeUser("Tommy", "Password");
+                authorizeUser("evilhacker", "evilpassword");
+
+                checkExpiredAuths();
+                Thread.sleep(UPDATE_INTERVAL);
+            }
+
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
+
+    private static boolean isUserAuthorized(String userId){
+        for (int i = 0; i < authorizedUsers.size(); i++){
+            if (authorizedUsers.get(i).userId == userId) return true;
+        }
+        return false;
+    }
+
+    // Remove any authenticated users from list of authenticated users
+    // if their timestamps are older than AUTH_TIMEOUT seconds
+    private static void checkExpiredAuths(){
+        for (int i = 0; i < authorizedUsers.size(); i++){
+            Timestamp curTime = new Timestamp(System.currentTimeMillis());
+
+            if ((curTime.getTime() - authorizedUsers.get(i).authTime.getTime()) > AUTH_TIMEOUT){
+                System.out.println("Authentication for user " + authorizedUsers.get(i).userId + " expired");
+                authorizedUsers.remove(i);
+            }
+        }
+    }
+
+
+
 
     //add user with username and password. Generates random salt for the hash
     private static boolean addPassword(String user, String password) throws NoSuchAlgorithmException {
@@ -74,8 +127,6 @@ public class passwordManager {
         String fileContent = Files.readString(fileName);
         String[] users = fileContent.split("\n");
 
-        boolean authorize = false;
-
         for (String s : users){
             String[] user = s.split(",");
 
@@ -83,12 +134,21 @@ public class passwordManager {
                 //System.out.println("User found with hash: " + user[1]);
                 //System.out.println("The salt of the user is: " + user[2]);
                 if (user[1].equals(hashPasswordSHA255(password,stringToByte(user[2])))){
-                    authorize = true;
+                    // User is already authorized; do nothing
+                    if (isUserAuthorized(username)){
+                        System.out.println("User " + username + " is already authorized");
+                        return true; 
+                    } else {
+                        authorizedUsers.add(new AuthorizedUser(username, new Timestamp(System.currentTimeMillis())));
+                        System.out.println("User " + username + " has been authorized");
+                        return true;
+                    }
                 }
             }
         }
 
-        return authorize;
+        System.out.println("User " + username + " has not been authorized. Access denied");
+        return false;
     }
 
     //made since writing a byte[] in file inputs the bytecode of the array. Translates it into readable string

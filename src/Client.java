@@ -14,6 +14,7 @@ public class Client {
             Compute stub = (Compute) registry.lookup("RMI_test");
 
             // Calling the remote method using the obtained object
+            stub.authenticate("cooluser", "coolpassword");
             stub.printMsg("Hello from client");
 
             // System.out.println("Remote method invoked");

@@ -6,4 +6,5 @@ import java.rmi.RemoteException;
 // Creating Remote interface for our application
 public interface Compute extends Remote {
     void printMsg(String msg) throws RemoteException;
+    void authenticate(String userId, string password);
 }
