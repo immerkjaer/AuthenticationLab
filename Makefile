@@ -9,12 +9,12 @@ create_registry:
 		echo "Starting rmi registry..."; \
 	fi
 
-compile: delete-compiled
+compile: 
 	mkdir -p classes
 	javac -d classes src/*.java
 
-start-server: compile create_registry
+start-server: create_registry
 	java -cp classes/ src/Server
 
-start-client: compile
+start-client:
 	java -cp classes/ src/Client

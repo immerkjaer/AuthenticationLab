@@ -23,7 +23,7 @@ public class ImplCompute implements Compute {
     // even if the server and connection is trusted.
     // Simply hashing it and calling the authorizeUser()
     // function from passwordManager should be all left to do here
-    public boolean authenticate(String userId, string password){
+    public boolean authenticate(String userId, String password){
         System.out.println("PLACEHOLDER FUNCTION: fake authentication of " + userId + "," + password + ". FIX AFTER CODE MERGE");
         return true;
     }

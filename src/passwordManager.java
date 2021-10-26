@@ -1,3 +1,5 @@
+package src;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,21 +30,21 @@ public class passwordManager {
     private static int UPDATE_INTERVAL = 1000; // Milliseconds
 
 
-    public static void main(String[] args){
+    public passwordManager(){
         try{
-            addPassword("Tommy", "Password");
+            addPassword("t", "p");
 
             // Eternal main loop; 1s update interval
             // This could run on a separate thread if needed
-            while(true){
+           // while(true){
                 // Simple infinite timeout test demonstrating timeout.
                 // Boolean output ignored here; would be used in real scenario
-                authorizeUser("Tommy", "Password");
-                authorizeUser("evilhacker", "evilpassword");
+             //   authorizeUser("Tommy", "Password");
+//                authorizeUser("evilhacker", "evilpassword");
 
-                checkExpiredAuths();
-                Thread.sleep(UPDATE_INTERVAL);
-            }
+//                checkExpiredAuths();
+//                Thread.sleep(UPDATE_INTERVAL);
+//            }
 
 
 
@@ -52,7 +54,7 @@ public class passwordManager {
     }
 
 
-    private static boolean isUserAuthorized(String userId){
+    private boolean isUserAuthorized(String userId){
         for (int i = 0; i < authorizedUsers.size(); i++){
             if (authorizedUsers.get(i).userId == userId) return true;
         }
@@ -76,7 +78,7 @@ public class passwordManager {
 
 
     //add user with username and password. Generates random salt for the hash
-    private static boolean addPassword(String user, String password) throws NoSuchAlgorithmException {
+    private boolean addPassword(String user, String password) throws NoSuchAlgorithmException {
         byte[] salt = generateSalt();
         try {
             FileWriter myWriter = new FileWriter("passwords.txt", true);
@@ -91,7 +93,7 @@ public class passwordManager {
     }
 
     //Takes a password and generates the hashed password
-    public static String hashPasswordSHA255(String password, byte[] salt){
+    public  String hashPasswordSHA255(String password, byte[] salt){
         String hash = "";
 
         try {
@@ -113,7 +115,7 @@ public class passwordManager {
     }
 
     //Generates a random salt
-    private static byte[] generateSalt() throws NoSuchAlgorithmException {
+    private byte[] generateSalt() throws NoSuchAlgorithmException {
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
         random.nextBytes(salt);
@@ -122,7 +124,7 @@ public class passwordManager {
     }
 
     //Not done, might delete later
-    private static boolean authorizeUser(String username, String password) throws IOException {
+    public boolean authorizeUser(String username, String password) throws IOException {
         Path fileName = Path.of("passwords.txt");
         String fileContent = Files.readString(fileName);
         String[] users = fileContent.split("\n");
@@ -152,7 +154,7 @@ public class passwordManager {
     }
 
     //made since writing a byte[] in file inputs the bytecode of the array. Translates it into readable string
-    private static String byteToString(byte[] salt){
+    private String byteToString(byte[] salt){
         String s = "";
         for (byte b: salt){
             s += b + " ";
@@ -160,7 +162,7 @@ public class passwordManager {
         return s;
     }
 
-    private static byte[] stringToByte(String s){ //Translates readable string back into byte array
+    private byte[] stringToByte(String s){ //Translates readable string back into byte array
         String[] bytes = s.split("\\s+");
 
         byte[] salt = new byte[16];
