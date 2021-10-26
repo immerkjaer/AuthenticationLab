@@ -17,7 +17,15 @@ public class Client {
             //      Printing the content of queue for printer1
             // Note that each method returns a generic response with a possible error message.
             // TODO: Below should be incorporated in some UI + implement for all other methods.
+
+
+            //Start stub
             stub.start();
+            
+            // Calling the remote method using the obtained object
+            stub.authenticate("cooluser", "coolpassword");
+            stub.printMsg("Hello from client");
+
             stub.print("test_file", "printer1");
             stub.print("test_file_other", "printer1");
             ServerResponse resp = stub.queue("printer1");
