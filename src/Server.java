@@ -5,7 +5,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class Server extends ImplCompute {
+public class Server extends PrinterServer {
     public Server() {}
 
     public static void main(String args[]) {
@@ -13,11 +13,11 @@ public class Server extends ImplCompute {
 
         try {
 //            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
-            ImplCompute engine = new ImplCompute();
+            PrinterServer server = new PrinterServer();
 
             // Exporting the object of implementation class
             // (here we are exporting the remote object to the stub)
-            Compute stub = (Compute) UnicastRemoteObject.exportObject(engine, 0);
+            IPrinterServer stub = (IPrinterServer) UnicastRemoteObject.exportObject(server, 0);
 
             // Binding the remote object (stub) in the registry
             Registry registry = LocateRegistry.getRegistry();
