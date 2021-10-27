@@ -82,7 +82,7 @@ public class passwordManager {
         byte[] salt = generateSalt();
         try {
             FileWriter myWriter = new FileWriter("passwords.txt", true);
-            myWriter.write(user + "," + hashPasswordSHA255(password, salt) + "," + byteToString(salt) + "\n");
+            myWriter.write(user + "," + hashPasswordSHA256(password, salt) + "," + byteToString(salt) + "\n");
             myWriter.close();
             System.out.println("Wrote something to the passwords file.");
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class passwordManager {
     }
 
     //Takes a password and generates the hashed password
-    public  String hashPasswordSHA255(String password, byte[] salt){
+    public  String hashPasswordSHA256(String password, byte[] salt){
         String hash = "";
 
         try {
@@ -135,7 +135,7 @@ public class passwordManager {
             if (user[0].equals(username)){
                 //System.out.println("User found with hash: " + user[1]);
                 //System.out.println("The salt of the user is: " + user[2]);
-                if (user[1].equals(hashPasswordSHA255(password,stringToByte(user[2])))){
+                if (user[1].equals(hashPasswordSHA256(password,stringToByte(user[2])))){
                     // User is already authorized; do nothing
                     if (isUserAuthorized(username)){
                         System.out.println("User " + username + " is already authorized");
