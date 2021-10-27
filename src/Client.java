@@ -114,10 +114,16 @@ public class Client {
                                 System.out.println(txt);
                                 break;
                             case 9:
-                                resp = stub.setConfig(" "," ",authTicket);
-                                authTicket =(Ticket)resp.res();
+                                System.out.println("Write parameter");
+                                file = scanner.nextLine();
+                                System.out.println("Write value");
+                                printer = scanner.nextLine();
+                                resp = stub.setConfig(file,printer,authTicket);
+                                resp.res();
+                                System.out.println("Success");
                                 break;
-                            case 10:
+                            case -99:
+                                System.out.println("This is a test");
                                 authTicket.sessionKey="d";
                                 break;
                         }
