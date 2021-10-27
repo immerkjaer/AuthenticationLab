@@ -33,7 +33,7 @@ public class passwordManager {
     public passwordManager(){
         try{
             addPassword("t", "p");
-
+            addPassword("1", "1");
             // Eternal main loop; 1s update interval
             // This could run on a separate thread if needed
            // while(true){

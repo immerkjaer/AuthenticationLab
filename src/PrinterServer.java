@@ -22,9 +22,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse print(String filename, String printerName, Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
@@ -41,9 +40,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse queue(String printerName, Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
@@ -57,9 +55,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse topQueue(String printerName, Integer jobIdx, Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
@@ -76,11 +73,9 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse start(Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
-        System.out.println(tickets);
         printers.stream()
                 .forEach(p -> p.setStatus(Status.Ready));
         isRunning = true;
@@ -89,9 +84,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse stop(Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         printers.stream()
                 .forEach(p -> p.setStatus(Status.Stopped));
@@ -101,9 +95,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse restart(Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         isRunning = false;
         printers.stream()
@@ -115,9 +108,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse status(String printerName, Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
@@ -131,9 +123,8 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse readConfig(String param, Ticket ticket) {
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
@@ -146,11 +137,12 @@ public class PrinterServer implements IPrinterServer {
     @Override
     public ServerResponse setConfig(String param, String value, Ticket ticket) {
 
-        var cond = checkConditions();
-        ServerResponse checkTicket = checkTicket(ticket);
-        if (checkTicket!=null){
-            return checkTicket;
+        if (checkTicket(ticket)){
+            return new ServerResponse(false).authErr("authentication failed").build();
         }
+        var cond = checkConditions();
+        
+
 
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
 
@@ -178,7 +170,7 @@ public class PrinterServer implements IPrinterServer {
             e.printStackTrace();
         }
         if (valid){
-            Ticket newTicket = new Ticket();
+            Ticket newTicket = new Ticket(userId);
             tickets.add(newTicket);
             return new ServerResponse(newTicket).build();
         }
@@ -186,16 +178,14 @@ public class PrinterServer implements IPrinterServer {
     }
 
 
-    private ServerResponse checkTicket(Ticket ticket){
-        Ticket userTicket=ticket;
-        if (!tickets.contains(ticket)){
-            if(!ticket.isActive()){ 
-                tickets.remove(userTicket);
-                System.out.println(tickets);
-                return new ServerResponse(null).authErr("auth failure").build();
+    private boolean checkTicket(Ticket ticket){
+        if (tickets.contains(ticket)){
+            if(ticket.isActive()){ 
+                return false;
             }
         }
-        return null;
+        return true;
+        
     }
 
 }

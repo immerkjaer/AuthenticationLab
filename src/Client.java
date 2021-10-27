@@ -14,6 +14,11 @@ public class Client {
         int choice = 0;
         String input ="";
         Ticket authTicket;
+        String printer;
+        String file;
+        int jobID;
+        String txt;
+        LinkedList<String> stringList;
         while(true){
             System.out.println("Write username");
             String userName = scanner.nextLine();
@@ -50,12 +55,19 @@ public class Client {
                     try{
                         switch (Integer.parseInt(input)) {
                             case 1:
-                                stub.print("test_file", "printer1",authTicket);
+                                System.out.println("Write file name");
+                                file = scanner.nextLine();
+                                System.out.println("Write printer name");
+                                printer = scanner.nextLine();
+                                stub.print(file, printer,authTicket).res();
+                                System.out.println("Success");
                                 break;
                             case 2:
-                                resp = stub.queue("printer1",authTicket);
-                                var res = (LinkedList<String>) resp.res();
-                                for (var val : res) {
+                                System.out.println("Write printer name");
+                                printer = scanner.nextLine();
+                                resp = stub.queue(printer,authTicket);
+                                stringList = (LinkedList<String>) resp.res();
+                                for (var val : stringList) {
                                     System.out.println(val);
                                 }
                                 if (resp.isErr()) {
@@ -63,29 +75,50 @@ public class Client {
                                 }
                                 break;
                             case 3:
-                                System.out.println("Wednesday");
+                                System.out.println("Write printer name");
+                                printer = scanner.nextLine();
+                                System.out.println("Write Job ID");
+                                jobID = Integer.parseInt(scanner.nextLine());
+                                resp = stub.topQueue(printer,jobID,authTicket);
+                                stringList = (LinkedList<String>) resp.res();
+                                for (var val : stringList) {
+                                    System.out.println(val);
+                                }
+                                if (resp.isErr()) {
+                                    System.out.println(resp.errMsg());
+                                }
                                 break;
                             case 4:
-                                stub.start(authTicket);
+                                stub.start(authTicket).res();
                                 System.out.println("Printer server started");
                                 break;
                             case 5:
-                                stub.stop(authTicket);
+                                stub.stop(authTicket).res();
                                 System.out.println("Printer server stopped");
                                 break;
                             case 6:
-                                System.out.println("Saturday");
-                                authTicket.sessionKey="d";
+                                stub.restart(authTicket).res();
+                                System.out.println("Printer server restarted");
                                 break;
                             case 7:
-                                System.out.println("Sunday");
+                                System.out.println("Write printer name");
+                                printer = scanner.nextLine();
+                                resp =stub.status(printer, authTicket);
+                                System.out.println((String)resp.res().toString());
                                 break;
                             case 8:
-                                System.out.println("Sunday");
+                                System.out.println("Write parameter");
+                                file = scanner.nextLine();
+                                resp=stub.readConfig(file, authTicket);
+                                txt=(String)resp.res();
+                                System.out.println(txt);
                                 break;
                             case 9:
                                 resp = stub.setConfig(" "," ",authTicket);
                                 authTicket =(Ticket)resp.res();
+                                break;
+                            case 10:
+                                authTicket.sessionKey="d";
                                 break;
                         }
                     } catch (NumberFormatException|NullPointerException e){

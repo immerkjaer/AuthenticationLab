@@ -29,7 +29,9 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public T res() throws Exception {
-        if (!isAuthErr()){ throw new Exception(errMsg());}
+        if (!isAuthErr()){
+            throw new Exception(errMsg());
+        }
         return result;
     }
 
@@ -56,6 +58,7 @@ public class ServerResponse<T> implements Serializable {
         return "ServerResponse{" +
                 "failed=" + failed +
                 ", result=" + result +
+                ", authenticated=" + authenticated +
                 ", error='" + error + '\'' +
                 '}';
     }
