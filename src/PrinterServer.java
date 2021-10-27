@@ -224,10 +224,12 @@ public class PrinterServer implements IPrinterServer {
 
     private boolean checkTicket(Ticket ticket){
         if (tickets.contains(ticket)){
-            if(ticket.isActive()){ 
+            if(ticket.isActive()){
+                 
                 return false;
             }
         }
+        tickets.remove(ticket);
         return true;
         
     }
