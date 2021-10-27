@@ -22,9 +22,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse print(String filename, String printerName, Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to print "+ filename+ " on printer "+printerName;
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" authorized");
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
 
@@ -40,9 +45,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse queue(String printerName, Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to see queue "+ " on printer "+printerName;
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" authorized");
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
 
@@ -55,9 +65,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse topQueue(String printerName, Integer jobIdx, Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to see topqueue "+ " on printer "+printerName;
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
 
@@ -73,9 +88,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse start(Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to start ";
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         printers.stream()
                 .forEach(p -> p.setStatus(Status.Ready));
         isRunning = true;
@@ -84,9 +104,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse stop(Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to stop ";
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         printers.stream()
                 .forEach(p -> p.setStatus(Status.Stopped));
         isRunning = false;
@@ -95,9 +120,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse restart(Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to restart ";
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         isRunning = false;
         printers.stream()
                 .forEach(p -> p.clearQueue());
@@ -108,9 +138,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse status(String printerName, Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to see status ";
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
 
@@ -123,9 +158,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse readConfig(String param, Ticket ticket) {
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to read config ";
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
 
@@ -136,10 +176,14 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse setConfig(String param, String value, Ticket ticket) {
-
+        String log="User: ";
+        log+=ticket.user;
+        log+=" tried to set Config ";
         if (checkTicket(ticket)){
+            System.out.println(log +" unauthorized");
             return new ServerResponse(false).authErr("authentication failed").build();
         }
+        System.out.println(log +" aurthorized");
         var cond = checkConditions();
         
 
@@ -163,10 +207,10 @@ public class PrinterServer implements IPrinterServer {
     public ServerResponse authenticate(String userId, String password) throws RemoteException {
         // Do validation in valid
         boolean valid=false;
+        
         try {
             valid = passwordManager.authorizeUser(userId, password);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (valid){

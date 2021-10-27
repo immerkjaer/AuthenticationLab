@@ -122,10 +122,6 @@ public class Client {
                                 resp.res();
                                 System.out.println("Success");
                                 break;
-                            case -99:
-                                System.out.println("This is a test");
-                                authTicket.sessionKey="d";
-                                break;
                         }
                     } catch (NumberFormatException|NullPointerException e){
                         System.err.println("" + e.toString()); 
