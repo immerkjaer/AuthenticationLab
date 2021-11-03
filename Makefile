@@ -11,10 +11,10 @@ create_registry:
 
 compile: 
 	mkdir -p classes
-	javac -d classes src/*.java
+	javac -cp jackson-annotations-2.13.0-rc1.jar:jackson-core-2.13.0-rc1.jar:jackson-databind-2.13.0-rc1.jar -d classes src/*.java
 
 start-server: create_registry
-	java -cp classes/ src/Server
+	java -cp classes/:jackson-annotations-2.13.0-rc1.jar:jackson-core-2.13.0-rc1.jar:jackson-databind-2.13.0-rc1.jar src/Server
 
 start-client:
-	java -cp classes/ src/Client
+	java -cp classes/:jackson-annotations-2.13.0-rc1.jar:jackson-core-2.13.0-rc1.jar:jackson-databind-2.13.0-rc1.jar src/Client
