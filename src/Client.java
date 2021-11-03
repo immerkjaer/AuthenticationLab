@@ -20,6 +20,8 @@ public class Client {
         String txt;
         LinkedList<String> stringList;
         while(true){
+            ReadJson rd = new ReadJson();
+            rd.read("ACL");
             System.out.println("Write username");
             String userName = scanner.nextLine();
             System.out.println("Write password");
