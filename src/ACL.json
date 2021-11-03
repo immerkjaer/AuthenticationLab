@@ -1,9 +1,11 @@
-{"print":["Alicer","Celina"],
-"queue":[],
-"topQueue":[],
-"start":[],
-"stop":[],
-"restart":[],
-"status":[],
-"readConfig":[],
-"setConfig":[]}
+[
+  {"method": "print", "users": ["Alicer","Celina"]},
+  {"method": "queue", "users": []},
+  {"method": "topQueue", "users": []},
+  {"method": "start", "users": []},
+  {"method": "stop", "users": []},
+  {"method": "restart", "users": []},
+  {"method": "status", "users": []},
+  {"method": "readConfig", "users": []},
+  {"method": "setConfig", "users": []}
+]

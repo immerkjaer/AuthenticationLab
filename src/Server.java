@@ -12,6 +12,8 @@ public class Server extends PrinterServer {
 //        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
 
         try {
+            new ReadJson().read("src/ACL.json");
+
 //            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
             PrinterServer server = new PrinterServer();
 
