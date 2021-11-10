@@ -234,4 +234,17 @@ public class PrinterServer implements IPrinterServer {
         
     }
 
+    private boolean (Ticket ticket){
+        AccessControlObj[] accessControl = new ReadJson().read;
+
+        //Find the role of the person from the ticket:
+
+
+        //Find out if role has permission to
+
+
+
+    }
+
+
 }
