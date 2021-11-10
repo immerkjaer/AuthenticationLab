@@ -1,11 +1,11 @@
 [
-  {"method": "print", "users": ["Alicer","Celina"]},
-  {"method": "queue", "users": []},
-  {"method": "topQueue", "users": []},
-  {"method": "start", "users": []},
-  {"method": "stop", "users": []},
-  {"method": "restart", "users": []},
-  {"method": "status", "users": []},
-  {"method": "readConfig", "users": []},
-  {"method": "setConfig", "users": []}
+  {"method": "print", "users": ["Alicer","Celina", "David", "Erica", "Fred", "George"]},
+  {"method": "queue", "users": ["Alice", "Celina", "David", "Erica", "Fred", "George"]},
+  {"method": "topQueue", "users": ["Alice", "Celina"]},
+  {"method": "start", "users": ["Alice", "Celina"]},
+  {"method": "stop", "users": ["Alice", "Bob"]},
+  {"method": "restart", "users": ["Alice", "Celina", "Bob"]},
+  {"method": "status", "users": ["Alice","Bob"]},
+  {"method": "readConfig", "users": ["Alice","Bob"]},
+  {"method": "setConfig", "users": ["Alice","Bob"]}
 ]

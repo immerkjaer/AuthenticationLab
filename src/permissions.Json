@@ -1,0 +1,13 @@
+{
+  "command": {
+    "print": "[Alice, Celina, David, Erica, Fred, George]",
+    "queue": "[Alice, Celina, David, Erica, Fred, George]",
+    "topQueue": "[Alice, Celina]",
+    "start": "[Alice, Celina]",
+    "stop": "[Alice, Bob]",
+    "restart": "[Alice, Celina, Bob]",
+    "status": "[Alice, Bob]",
+    "readConfig": "[Alice, Bob]",
+    "setConfig": "[Alice, Bob]"
+  }
+}
