@@ -1,0 +1,8 @@
+{
+  "roles": {
+    "ServerManager": "[Alice]",
+    "PowerUser": "[Celina]",
+    "ServiceTechnician": "[Bob]",
+    "OrdinaryUser": "[David, Erica, Fred, George]"
+  }
+}
