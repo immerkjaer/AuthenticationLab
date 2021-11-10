@@ -13,11 +13,13 @@ public class PrinterServer implements IPrinterServer {
     private Boolean isRunning = false;
     private Set<Ticket> tickets = new HashSet<Ticket>();
     public passwordManager passwordManager;
+    private ReadJson readJson;
     public PrinterServer() {
         passwordManager = new passwordManager();
         printers.add(new Printer("printer1"));
         printers.add(new Printer("printer2"));
         printers.add(new Printer("printer3"));
+        readJson = new ReadJson();
     }
 
     @Override
@@ -26,9 +28,16 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to print "+ filename+ " on printer "+printerName;
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
+
+        if (!checkAuthorized(ticket,0)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
+        }
+
+
         System.out.println(log +" authorized");
         var cond = checkConditions();
         if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
@@ -49,8 +58,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to see queue "+ " on printer "+printerName;
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,1)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" authorized");
         var cond = checkConditions();
@@ -69,8 +82,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to see topqueue "+ " on printer "+printerName;
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,2)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         var cond = checkConditions();
@@ -92,8 +109,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to start ";
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,3)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         printers.stream()
@@ -108,8 +129,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to stop ";
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,4)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         printers.stream()
@@ -124,8 +149,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to restart ";
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,5)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         isRunning = false;
@@ -142,8 +171,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to see status ";
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,6)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         var cond = checkConditions();
@@ -162,8 +195,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to read config ";
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,7)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         var cond = checkConditions();
@@ -180,8 +217,12 @@ public class PrinterServer implements IPrinterServer {
         log+=ticket.user;
         log+=" tried to set Config ";
         if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized");
-            return new ServerResponse(false).authErr("authentication failed").build();
+            System.out.println(log +" unauthorized by ticket");
+            return new ServerResponse(false).authErr("authentication failed ticket").build();
+        }
+        if (!checkAuthorized(ticket,8)){
+            System.out.println(log +" unauthorized by user not authorized");
+            return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
         System.out.println(log +" aurthorized");
         var cond = checkConditions();
@@ -218,7 +259,7 @@ public class PrinterServer implements IPrinterServer {
             tickets.add(newTicket);
             return new ServerResponse(newTicket).build();
         }
-        return new ServerResponse(false).authErr("authentication failed").build();
+        return new ServerResponse(false).authErr("authentication failed ticket").build();
     }
 
 
@@ -233,5 +274,23 @@ public class PrinterServer implements IPrinterServer {
         return true;
         
     }
+
+
+    private boolean checkAuthorized ( Ticket userTicket, int i){
+        AccessControlObj[]  accessControl= readJson.read("src/ACL.json");
+
+        for (String users: accessControl[i].users){
+            if (userTicket.user.equals(users)){
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+
+
+
 
 }

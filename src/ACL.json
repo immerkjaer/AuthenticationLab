@@ -1,8 +1,8 @@
 [
-  {"method": "print", "users": ["Alicer","Celina", "David", "Erica", "Fred", "George"]},
+  {"method": "print", "users": ["Alice","Celina", "David", "Erica", "Fred", "George"]},
   {"method": "queue", "users": ["Alice", "Celina", "David", "Erica", "Fred", "George"]},
   {"method": "topQueue", "users": ["Alice", "Celina"]},
-  {"method": "start", "users": ["Alice", "Celina"]},
+  {"method": "start", "users": ["Alice", "Celina","Bob"]},
   {"method": "stop", "users": ["Alice", "Bob"]},
   {"method": "restart", "users": ["Alice", "Celina", "Bob"]},
   {"method": "status", "users": ["Alice","Bob"]},

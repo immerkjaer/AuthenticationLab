@@ -9,7 +9,7 @@ public class Ticket implements Serializable{
     String service;
     String sessionKey;
     String user;
-    int secAdded = 20;
+    int secAdded = 10000;
 
     public Ticket(String user){
         this.sessionKey=UUID.randomUUID().toString();
