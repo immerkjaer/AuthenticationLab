@@ -275,7 +275,7 @@ public class PrinterServer implements IPrinterServer {
         
     }
 
-
+/*
     private boolean checkAuthorized ( Ticket userTicket, int i){
         AccessControlObj[]  accessControl= readJson.read("src/ACL.json");
 
@@ -288,6 +288,40 @@ public class PrinterServer implements IPrinterServer {
 
         return false;
     }
+
+ */
+
+    private boolean checkAuthorized ( Ticket userTicket, int i){
+        AccessControlObj[]  accessControlRoles= readJson.read("src/roles.json");
+        String role = "";
+
+        l1:for (AccessControlObj obj: accessControlRoles) {
+
+
+            for (String user : obj.users) {
+                if (user.equals(userTicket.user)) {
+                    //Check role of user
+                    role = obj.method;
+                    break l1;
+                }
+            }
+        }
+
+        //Check permission for role
+        AccessControlObj[]  accessControlPerm = readJson.read("src/rolePermissions.json");
+
+        for (String users: accessControlPerm[i].users){
+            if (users.equals(role)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+
 
 
 }
