@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class permissionCheck {
 
+    public permissionCheck(){
+
+    }
 
     public boolean isPermitted(String name, String command){
         //Read Json to get role of person

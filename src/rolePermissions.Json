@@ -1,13 +1,11 @@
-{
-  "command": {
-    "print": "[ServerManager, PowerUser, OrdinaryUser]",
-    "queue": "[ServerManager, PowerUser, OrdinaryUser]",
-    "topQueue": "[ServerManager, PowerUser]",
-    "start": "[ServerManager, ServiceTechnician]",
-    "stop": "[ServerManager, ServiceTechnician]",
-    "restart": "[ServerManager, PowerUser, ServiceTechnician]",
-    "status": "[ServerManager, ServiceTechnician]",
-    "readConfig": "[ServerManager, ServiceTechnician]",
-    "setConfig": "[ServerManager, ServiceTechnician]"
-  }
-}
+[
+  {"method": "print", "users": ["ServerManager", "PowerUser", "OrdinaryUser"]},
+  {"method": "queue", "users": ["ServerManager", "PowerUser", "OrdinaryUser"]},
+  {"method": "topQueue", "users": ["ServerManager", "PowerUser"]},
+  {"method": "start", "users": ["ServerManager", "ServiceTechnician"]},
+  {"method": "stop", "users": ["ServerManager", "ServiceTechnician"]},
+  {"method": "restart", "users": ["ServerManager", "PowerUser", "ServiceTechnician"]},
+  {"method": "status", "users": ["ServerManager", "ServiceTechnician"]},
+  {"method": "readConfig", "users": ["ServerManager", "ServiceTechnician"]},
+  {"method": "setConfig", "users": ["ServerManager", "ServiceTechnician"]}
+]
