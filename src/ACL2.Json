@@ -1,0 +1,11 @@
+[
+  {"method": "print", "users": ["Alice","Celina", "David", "Erica", "Fred", "Henry", "Ida"]},
+  {"method": "queue", "users": ["Alice", "Celina", "David", "Erica", "Fred", "Henry", "Ida"]},
+  {"method": "topQueue", "users": ["Alice", "Celina", "Ida"]},
+  {"method": "start", "users": ["Alice", "Celina","George", "Ida"]},
+  {"method": "stop", "users": ["Alice", "George"]},
+  {"method": "restart", "users": ["Alice", "Celina", "George", "Ida"]},
+  {"method": "status", "users": ["Alice","George"]},
+  {"method": "readConfig", "users": ["Alice","George"]},
+  {"method": "setConfig", "users": ["Alice","George"]}
+]

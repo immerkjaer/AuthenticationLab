@@ -332,9 +332,6 @@ public class PrinterServer implements IPrinterServer {
         }
         AccessControlObj  accessControlRolePermission= readJson.read("src/rolePermissions.json")[i];
 
-
-
-
         RoleHierarchy lowestRole = null;
         for (RoleHierarchy roleH: roleHierarchies){
             if (roleH.name.equals(accessControlRolePermission.users[0])){

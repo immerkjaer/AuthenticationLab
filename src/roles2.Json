@@ -1,0 +1,6 @@
+[
+  {"method":  "ServerManager", "users":  ["Alice"]},
+  {"method":  "PowerUser", "users":  ["Celina", "Ida"]},
+  {"method":  "ServiceTechnician", "users":  ["George"]},
+  {"method":  "OrdinaryUser", "users":  ["David", "Erica", "Fred", "Henry"]}
+]
