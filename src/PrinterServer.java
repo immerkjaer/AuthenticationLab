@@ -294,23 +294,28 @@ public class PrinterServer implements IPrinterServer {
     private boolean checkAuthorized ( Ticket userTicket, int i){
 
         //read superiority.Json and build RoleHierarchy object
-        //RoleHierarchy roleHierarchy = RoleHierarchy.init("src/roles.Json");
-        AccessControlObj[]  accessControlRoles= readJson.read("src/Superiority.json");
-        for (AccessControlObj obj : accessControlRoles){
+        RoleHierarchy[] roleHierarchy =  new RoleHierarchy();
 
+        AccessControlObj  accessControlRolePermission= readJson.read("src/rolePermissions.json")[i];
+
+
+
+
+        RoleHierarchy lowestRole = null;
+        for (RoleHierarchy roleH:roleHierarchy){
+            if (roleH.name.equals(accessControlRolePermission.users[0])){
+                lowestRole = roleH;
+                break;
+            }
         }
-        //
-
-
-
-
-
-
+        if (lowestRole == null){
+            return false;
+        }
 
 
 
         AccessControlObj[]  accessControlRoles= readJson.read("src/roles.json");
-        String role = "";
+        String userRole = "";
 
         l1:for (AccessControlObj obj: accessControlRoles) {
 
@@ -318,22 +323,14 @@ public class PrinterServer implements IPrinterServer {
             for (String user : obj.users) {
                 if (user.equals(userTicket.user)) {
                     //Check role of user
-                    role = obj.method;
+                    userRole = obj.method;
                     break l1;
                 }
             }
         }
 
-        //Check permission for role
-        AccessControlObj[]  accessControlPerm = readJson.read("src/rolePermissions.json");
 
-        for (String users: accessControlPerm[i].users){
-            if (users.equals(role)){
-                return true;
-            }
-        }
-
-        return false;
+        return lowestRole.checkIfRoleHierarchyHasPermission(userRole);
     }
 
 

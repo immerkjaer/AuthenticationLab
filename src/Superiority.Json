@@ -1,6 +1,6 @@
 [
-  {"method":  "ServerManager", "users":  []},
-  {"method":  "PowerUser", "users":  ["ServerManager"]},
+  {"method":  "OrdinaryUser", "users":  ["PowerUser"]},
   {"method":  "ServiceTechnician", "users":  ["ServerManager"]},
-  {"method":  "OrdinaryUser", "users":  ["PowerUser"]}
+  {"method":  "PowerUser", "users":  ["ServerManager"]},
+  {"method":  "ServerManager", "users":  []}
 ]

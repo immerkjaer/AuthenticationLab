@@ -3,7 +3,6 @@ package src;
 public class RoleHierarchy{
     String name;
     RoleHierarchy superior;
-    String[] permissions;
 
     //New role subject of superior (In latice there is a lone downwards from superior to subject)
     public RoleHierarchy(String name, RoleHierarchy superior, String[] permissions){
@@ -15,9 +14,20 @@ public class RoleHierarchy{
 
     }
 
-    //Create from file
-    public RoleHierarchy init(string filePath){
 
+    public boolean checkIfRoleHierarchyHasPermission(String role){
+
+        if(role.equals(this.name)){
+            return true;
+        }
+        if  (superior==null){
+            return false;
+        }
+
+
+        return superior.checkIfRoleHierarchyHasPermission(role);
     }
+
+
 
 }
