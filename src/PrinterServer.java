@@ -3,6 +3,7 @@ package src;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import src.*;
 
 import javax.sound.sampled.SourceDataLine;
 
@@ -298,16 +299,16 @@ public class PrinterServer implements IPrinterServer {
         RoleHierarchy[] roleHierarchies = new RoleHierarchy[accessControlRoles.length];
 
         //make rolehierarchy object for every role
-        for (int i = 0; i < accessControlRoles.length; i++){
-            RoleHierarchy[i] = new RoleHierarchy(accessControlRoles[i].method);
+        for (int j = 0; j < accessControlRoles.length; i++){
+            RoleHierarchy[j] = new RoleHierarchy(accessControlRoles[i].method);
         }
         //make connections between the objects (set superior)
         for (RoleHierarchy RH : roleHierarchies){ //for all the roles we have created
-            l1:for (int i = 0; i < accessControlRoles.length; i++){ //for every role in the file
-                if (accessControlRoles[i].user.length > 0){//If this role has a superior
+            l1:for (int j = 0; j < accessControlRoles.length; i++){ //for every role in the file
+                if (accessControlRoles[j].users.length > 0){//If this role has a superior
                     //get the RoleHierarchy obj from the list and set that as the superior for RH
                     for (RoleHierarchy sub: roleHierarchies){
-                        if (sub.name.equals(accessControlRoles[i].user[0])){
+                        if (sub.name.equals(accessControlRoles[j].users[0])){
                             sub.superior = RH;
                             break l1;
                         }
@@ -315,35 +316,6 @@ public class PrinterServer implements IPrinterServer {
                 }
             }
         }
-
-
-
-
-
-
-        AccessControlObj[]  accessControlRoles= readJson.read("src/roles.json");
-        String role = "";
-
-        l1:for (AccessControlObj obj: accessControlRoles) {
-            for (String user : obj.users) {
-                if (user.equals(userTicket.user)) {
-                    //Check role of user
-                    role = obj.method;
-                    break l1;
-                }
-            }
-        }
-
-        //Check permission for role
-        AccessControlObj[]  accessControlPerm = readJson.read("src/rolePermissions.json");
-
-        for (String users: accessControlPerm[i].users){
-            if (users.equals(role)){
-                return true;
-            }
-        }
-
-        return false;
     }
 
 
