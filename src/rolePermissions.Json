@@ -1,11 +1,11 @@
 [
-  {"method": "print", "users": ["ServerManager", "PowerUser", "OrdinaryUser"]},
-  {"method": "queue", "users": ["ServerManager", "PowerUser", "OrdinaryUser"]},
-  {"method": "topQueue", "users": ["ServerManager", "PowerUser"]},
-  {"method": "start", "users": ["ServerManager", "ServiceTechnician"]},
-  {"method": "stop", "users": ["ServerManager", "ServiceTechnician"]},
-  {"method": "restart", "users": ["ServerManager", "PowerUser", "ServiceTechnician"]},
-  {"method": "status", "users": ["ServerManager", "ServiceTechnician"]},
-  {"method": "readConfig", "users": ["ServerManager", "ServiceTechnician"]},
-  {"method": "setConfig", "users": ["ServerManager", "ServiceTechnician"]}
+  {"method": "print", "users": ["OrdinaryUser"]},
+  {"method": "queue", "users": ["OrdinaryUser"]},
+  {"method": "topQueue", "users": ["PowerUser"]},
+  {"method": "start", "users": ["ServiceTechnician"]},
+  {"method": "stop", "users": ["ServiceTechnician"]},
+  {"method": "restart", "users": ["PowerUser", "ServiceTechnician"]},
+  {"method": "status", "users": ["ServiceTechnician"]},
+  {"method": "readConfig", "users": ["ServiceTechnician"]},
+  {"method": "setConfig", "users": ["ServiceTechnician"]}
 ]

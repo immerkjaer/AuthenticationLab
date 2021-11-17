@@ -292,6 +292,10 @@ public class PrinterServer implements IPrinterServer {
  */
 
     private boolean checkAuthorized ( Ticket userTicket, int i){
+
+        RoleHierarchy roleHierarchy = RoleHierarchy.init("src/roles.Json");
+        
+
         AccessControlObj[]  accessControlRoles= readJson.read("src/roles.json");
         String role = "";
 

@@ -1,6 +1,6 @@
 [
-  {"role":  "ServerManager", "Users":  ["Alice"]},
-  {"role":  "PowerUser", "Users":  ["Celina"]},
-  {"role":  "ServiceTechnician", "Users":  ["Bob"]},
-  {"role":  "OrdinaryUser", "Users":  ["David", "Erica", "Fred", "George"]}
+  {"method":  "ServerManager", "users":  ["Alice"], "superior":  []},
+  {"method":  "PowerUser", "users":  ["Celina"], "superior":  ["ServerManager"]},
+  {"method":  "ServiceTechnician", "users":  ["Bob"], "superior":  ["ServerManager"]},
+  {"method":  "OrdinaryUser", "users":  ["David", "Erica", "Fred", "George"], "superior":  ["PowerUser"]}
 ]
