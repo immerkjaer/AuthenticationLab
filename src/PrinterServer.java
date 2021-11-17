@@ -3,6 +3,7 @@ package src;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import src.*;
 
 import javax.sound.sampled.SourceDataLine;
 
@@ -14,6 +15,7 @@ public class PrinterServer implements IPrinterServer {
     private Set<Ticket> tickets = new HashSet<Ticket>();
     public passwordManager passwordManager;
     private ReadJson readJson;
+
     public PrinterServer() {
         passwordManager = new passwordManager();
         printers.add(new Printer("printer1"));
@@ -24,23 +26,25 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse print(String filename, String printerName, Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to print "+ filename+ " on printer "+printerName;
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to print " + filename + " on printer " + printerName;
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
 
-        if (!checkAuthorized(ticket,0)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 0)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
 
 
-        System.out.println(log +" authorized");
+        System.out.println(log + " authorized");
         var cond = checkConditions();
-        if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
+        if (!cond.isEmpty()) {
+            return new ServerResponse(null).withErr(cond).build();
+        }
 
         return printers.stream()
                 .filter(p -> p.getPrinterName().equals(printerName))
@@ -54,20 +58,22 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse queue(String printerName, Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to see queue "+ " on printer "+printerName;
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to see queue " + " on printer " + printerName;
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,1)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 1)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" authorized");
+        System.out.println(log + " authorized");
         var cond = checkConditions();
-        if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
+        if (!cond.isEmpty()) {
+            return new ServerResponse(null).withErr(cond).build();
+        }
 
         return printers.stream()
                 .filter(p -> p.getPrinterName().equals(printerName))
@@ -78,20 +84,22 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse topQueue(String printerName, Integer jobIdx, Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to see topqueue "+ " on printer "+printerName;
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to see topqueue " + " on printer " + printerName;
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,2)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 2)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         var cond = checkConditions();
-        if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
+        if (!cond.isEmpty()) {
+            return new ServerResponse(null).withErr(cond).build();
+        }
 
         return printers.stream()
                 .filter(p -> p.getPrinterName().equals(printerName))
@@ -105,18 +113,18 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse start(Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to start ";
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to start ";
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,3)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 3)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         printers.stream()
                 .forEach(p -> p.setStatus(Status.Ready));
         isRunning = true;
@@ -125,18 +133,18 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse stop(Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to stop ";
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to stop ";
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,4)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 4)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         printers.stream()
                 .forEach(p -> p.setStatus(Status.Stopped));
         isRunning = false;
@@ -145,18 +153,18 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse restart(Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to restart ";
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to restart ";
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,5)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 5)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         isRunning = false;
         printers.stream()
                 .forEach(p -> p.clearQueue());
@@ -167,20 +175,22 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse status(String printerName, Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to see status ";
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to see status ";
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,6)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 6)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         var cond = checkConditions();
-        if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
+        if (!cond.isEmpty()) {
+            return new ServerResponse(null).withErr(cond).build();
+        }
 
         return printers.stream()
                 .filter(p -> p.getPrinterName().equals(printerName))
@@ -191,20 +201,22 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse readConfig(String param, Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to read config ";
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to read config ";
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,7)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 7)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         var cond = checkConditions();
-        if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
+        if (!cond.isEmpty()) {
+            return new ServerResponse(null).withErr(cond).build();
+        }
 
         return params.containsKey(param)
                 ? new ServerResponse(params.get(param)).build()
@@ -213,30 +225,31 @@ public class PrinterServer implements IPrinterServer {
 
     @Override
     public ServerResponse setConfig(String param, String value, Ticket ticket) {
-        String log="User: ";
-        log+=ticket.user;
-        log+=" tried to set Config ";
-        if (checkTicket(ticket)){
-            System.out.println(log +" unauthorized by ticket");
+        String log = "User: ";
+        log += ticket.user;
+        log += " tried to set Config ";
+        if (checkTicket(ticket)) {
+            System.out.println(log + " unauthorized by ticket");
             return new ServerResponse(false).authErr("authentication failed ticket").build();
         }
-        if (!checkAuthorized(ticket,8)){
-            System.out.println(log +" unauthorized by user not authorized");
+        if (!checkAuthorized(ticket, 8)) {
+            System.out.println(log + " unauthorized by user not authorized");
             return new ServerResponse(false).authErr("authentication failed by user not authorized").build();
         }
-        System.out.println(log +" aurthorized");
+        System.out.println(log + " aurthorized");
         var cond = checkConditions();
-        
 
 
-        if (!cond.isEmpty()) { return new ServerResponse(null).withErr(cond).build(); }
+        if (!cond.isEmpty()) {
+            return new ServerResponse(null).withErr(cond).build();
+        }
 
         params.put(param, value);
         return new ServerResponse(null).build();
     }
 
     private String checkConditions() {
-        
+
         if (!isRunning) {
             return "Print server is offline";
         }
@@ -247,14 +260,14 @@ public class PrinterServer implements IPrinterServer {
     @Override
     public ServerResponse authenticate(String userId, String password) throws RemoteException {
         // Do validation in valid
-        boolean valid=false;
-        
+        boolean valid = false;
+
         try {
             valid = passwordManager.authorizeUser(userId, password);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (valid){
+        if (valid) {
             Ticket newTicket = new Ticket(userId);
             tickets.add(newTicket);
             return new ServerResponse(newTicket).build();
@@ -263,16 +276,16 @@ public class PrinterServer implements IPrinterServer {
     }
 
 
-    private boolean checkTicket(Ticket ticket){
-        if (tickets.contains(ticket)){
-            if(ticket.isActive()){
-                 
+    private boolean checkTicket(Ticket ticket) {
+        if (tickets.contains(ticket)) {
+            if (ticket.isActive()) {
+
                 return false;
             }
         }
         tickets.remove(ticket);
         return true;
-        
+
     }
 
 /*
@@ -291,18 +304,39 @@ public class PrinterServer implements IPrinterServer {
 
  */
 
-    private boolean checkAuthorized ( Ticket userTicket, int i){
+    private boolean checkAuthorized(Ticket userTicket, int i) {
 
-        //read superiority.Json and build RoleHierarchy object
-        RoleHierarchy[] roleHierarchy =  new RoleHierarchy();
+        //read superiority.Json and build RoleHierarchy objects
+        AccessControlObj[] accessControlSup = readJson.read("src/Superiority.json");
+        RoleHierarchy[] roleHierarchies = new RoleHierarchy[accessControlSup.length];
 
+        //make rolehierarchy object for every role
+        for (int j = 0; j < accessControlSup.length; j++) {
+            roleHierarchies[j] = new RoleHierarchy(accessControlSup[j].method);
+        }
+        //make connections between the objects (set superior)
+        for (RoleHierarchy RH : roleHierarchies) { //for all the roles we have created
+            l1:
+            for (int j = 0; j < accessControlSup.length; j++) { //for every role in the file
+                if (accessControlSup[j].users.length > 0) {//If this role has a superior
+                    //get the RoleHierarchy obj from the list and set that as the superior for RH
+                    for (RoleHierarchy sub : roleHierarchies) {
+                        if (sub.name.equals(accessControlSup[j].users[0])&& RH.name.equals(accessControlSup[j].method)) {
+                            RH.superior = sub;
+                            break l1;
+                        }
+                    }
+
+                }
+            }
+        }
         AccessControlObj  accessControlRolePermission= readJson.read("src/rolePermissions.json")[i];
 
 
 
 
         RoleHierarchy lowestRole = null;
-        for (RoleHierarchy roleH:roleHierarchy){
+        for (RoleHierarchy roleH: roleHierarchies){
             if (roleH.name.equals(accessControlRolePermission.users[0])){
                 lowestRole = roleH;
                 break;
@@ -328,14 +362,6 @@ public class PrinterServer implements IPrinterServer {
                 }
             }
         }
-
-
         return lowestRole.checkIfRoleHierarchyHasPermission(userRole);
     }
-
-
-
-
-
-
 }
