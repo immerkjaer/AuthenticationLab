@@ -1,6 +1,6 @@
 [
-  {"method":  "ServerManager", "users":  ["Alice"]},
-  {"method":  "PowerUser", "users":  ["Celina"]},
-  {"method":  "ServiceTechnician", "users":  ["Bob"]},
-  {"method":  "OrdinaryUser", "users":  ["David", "Erica", "Fred", "George"]}
+  {"method":  "ServerManager", "users":  ["Alice"], "superior":  []},
+  {"method":  "PowerUser", "users":  ["Celina"], "superior":  ["ServerManager"]},
+  {"method":  "ServiceTechnician", "users":  ["Bob"], "superior":  ["ServerManager"]},
+  {"method":  "OrdinaryUser", "users":  ["David", "Erica", "Fred", "George"], "superior":  ["PowerUser"]}
 ]
