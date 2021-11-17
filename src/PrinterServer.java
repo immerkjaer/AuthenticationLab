@@ -293,16 +293,28 @@ public class PrinterServer implements IPrinterServer {
 
     private boolean checkAuthorized ( Ticket userTicket, int i){
 
-        //read superiority.Json and build RoleHierarchy object
-        //RoleHierarchy roleHierarchy = RoleHierarchy.init("src/roles.Json");
+        //read superiority.Json and build RoleHierarchy objects
         AccessControlObj[]  accessControlRoles= readJson.read("src/Superiority.json");
-        for (AccessControlObj obj : accessControlRoles){
+        RoleHierarchy[] roleHierarchies = new RoleHierarchy[accessControlRoles.length];
 
+        //make rolehierarchy object for every role
+        for (int i = 0; i < accessControlRoles.length; i++){
+            RoleHierarchy[i] = new RoleHierarchy(accessControlRoles[i].method);
         }
-        //
-
-
-
+        //make connections between the objects (set superior)
+        for (RoleHierarchy RH : roleHierarchies){ //for all the roles we have created
+            l1:for (int i = 0; i < accessControlRoles.length; i++){ //for every role in the file
+                if (accessControlRoles[i].user.length > 0){//If this role has a superior
+                    //get the RoleHierarchy obj from the list and set that as the superior for RH
+                    for (RoleHierarchy sub: roleHierarchies){
+                        if (sub.name.equals(accessControlRoles[i].user[0])){
+                            sub.superior = RH;
+                            break l1;
+                        }
+                    }
+                }
+            }
+        }
 
 
 
@@ -313,8 +325,6 @@ public class PrinterServer implements IPrinterServer {
         String role = "";
 
         l1:for (AccessControlObj obj: accessControlRoles) {
-
-
             for (String user : obj.users) {
                 if (user.equals(userTicket.user)) {
                     //Check role of user
