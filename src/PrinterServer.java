@@ -332,14 +332,14 @@ public class PrinterServer implements IPrinterServer {
         }
         AccessControlObj  accessControlRolePermission= readJson.read("src/rolePermissions.json")[i];
 
-        RoleHierarchy lowestRole = null;
+        ArrayList<RoleHierarchy> rolesAllowed = new ArrayList<RoleHierarchy>();
         for (RoleHierarchy roleH: roleHierarchies){
             if (roleH.name.equals(accessControlRolePermission.users[0])){
-                lowestRole = roleH;
+                rolesAllowed.add(roleH);
                 break;
             }
         }
-        if (lowestRole == null){
+        if (rolesAllowed.size() > 0){
             return false;
         }
 
@@ -359,6 +359,10 @@ public class PrinterServer implements IPrinterServer {
                 }
             }
         }
-        return lowestRole.checkIfRoleHierarchyHasPermission(userRole);
+        boolean returnBool = false;
+        for (RoleHierarchy r: rolesAllowed){
+            returnBool=returnBool||r.checkIfRoleHierarchyHasPermission(userRole);
+        }
+        return returnBool;
     }
 }
