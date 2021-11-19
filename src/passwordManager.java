@@ -80,7 +80,7 @@ public class passwordManager {
     private boolean addPassword(String user, String password) throws NoSuchAlgorithmException {
         byte[] salt = generateSalt();
         try {
-            FileWriter myWriter = new FileWriter("passwords.txt", true);
+            FileWriter myWriter = new FileWriter("data/passwords.txt", true);
             myWriter.write(user + "," + hashPasswordSHA256(password, salt) + "," + byteToString(salt) + "\n");
             myWriter.close();
             System.out.println("Wrote something to the passwords file.");

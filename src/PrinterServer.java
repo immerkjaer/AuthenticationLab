@@ -290,7 +290,7 @@ public class PrinterServer implements IPrinterServer {
 
 /*
     private boolean checkAuthorized ( Ticket userTicket, int i){
-        AccessControlObj[]  accessControl= readJson.read("src/ACL.json");
+        AccessControlObj[]  accessControl= readJson.read("data/ACL2.json");
 
         for (String users: accessControl[i].users){
             if (userTicket.user.equals(users)){
@@ -307,7 +307,7 @@ public class PrinterServer implements IPrinterServer {
     private boolean checkAuthorized(Ticket userTicket, int i) {
 
         //read superiority.Json and build RoleHierarchy objects
-        AccessControlObj[] accessControlSup = readJson.read("src/Superiority.json");
+        AccessControlObj[] accessControlSup = readJson.read("data/Superiority.json");
         RoleHierarchy[] roleHierarchies = new RoleHierarchy[accessControlSup.length];
 
         //make rolehierarchy object for every role
@@ -330,7 +330,7 @@ public class PrinterServer implements IPrinterServer {
                 }
             }
         }
-        AccessControlObj  accessControlRolePermission= readJson.read("src/rolePermissions.json")[i];
+        AccessControlObj  accessControlRolePermission= readJson.read("data/rolePermissions.json")[i];
 
         RoleHierarchy lowestRole = null;
         for (RoleHierarchy roleH: roleHierarchies){
@@ -345,7 +345,7 @@ public class PrinterServer implements IPrinterServer {
 
 
 
-        AccessControlObj[]  accessControlRoles= readJson.read("src/roles2.json");
+        AccessControlObj[]  accessControlRoles= readJson.read("data/roles2.json");
         String userRole = "";
 
         l1:for (AccessControlObj obj: accessControlRoles) {
