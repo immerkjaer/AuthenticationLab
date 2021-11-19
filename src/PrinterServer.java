@@ -334,12 +334,14 @@ public class PrinterServer implements IPrinterServer {
 
         ArrayList<RoleHierarchy> rolesAllowed = new ArrayList<RoleHierarchy>();
         for (RoleHierarchy roleH: roleHierarchies){
-            if (roleH.name.equals(accessControlRolePermission.users[0])){
-                rolesAllowed.add(roleH);
-                break;
+            for (String name: accessControlRolePermission.users){
+                if (roleH.name.equals(name)){
+                    rolesAllowed.add(roleH);
+                }
             }
         }
-        if (rolesAllowed.size() > 0){
+
+        if (rolesAllowed.size() == 0){
             return false;
         }
 
