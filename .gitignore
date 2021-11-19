@@ -1,5 +1,6 @@
 /out
 /.idea
+/classes
 
 # Compiled class file
 *.class
