@@ -124,7 +124,7 @@ public class passwordManager {
 
     //Not done, might delete later
     public boolean authorizeUser(String username, String password) throws IOException {
-        Path fileName = Path.of("passwords.txt");
+        Path fileName = Path.of("data/passwords.txt");
         String fileContent = Files.readString(fileName);
         String[] users = fileContent.split("\n");
 
